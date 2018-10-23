@@ -1,0 +1,1 @@
+# ts-vue-class-component-wp4-mobx-starter

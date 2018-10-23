@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "baseUrl": "",
+    "module": "esnext",
+    // Target latest version of ECMAScript.
+    "target": "esnext",
+    // Search under node_modules for non-relative imports.
+    "moduleResolution": "node",
+    // Process & infer types from .js files.
+    "allowJs": true,
+    // Don't emit; allow Babel to transform files.
+    "noEmit": true,
+    // Enable strictest settings like strictNullChecks & noImplicitAny.
+    "strict": true,
+    // Disallow features that require cross-file information for emit.
+    "isolatedModules": false,
+    // Import non-ES modules as default imports.
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@page/*": ["src/components/pages/*"],
+      "@partial/*": ["src/components/partials/*"],
+      "@module/*": ["src/components/modules/*"],
+      "@model/*": ["src/models/*"],
+      "@lib/*": ["src/libs/*"],
+      "@assets/*": ["src/assets/*"],
+      "@config/*": ["src/configs/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "ts-vue-mobx",
+  "version": "1.0.0",
+  "description": "Typescript + Vue + Mobx",
+  "config": {
+    "env": "development",
+    "client": "default"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development CLIENT=$npm_package_config_client npx webpack-dev-server",
+    "build": "cross-env NODE_ENV=$npm_package_config_env CLIENT=$npm_package_config_client npx webpack --mode production"
+  },
+  "author": "linyupark@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-typescript": "^7.1.0",
+    "autoprefixer": "^9.2.1",
+    "babel-loader": "^8.0.4",
+    "compression-webpack-plugin": "^2.0.0",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.4",
+    "mobx": "^5.5.1",
+    "mobx-vue": "^2.0.7",
+    "postcss-loader": "^3.0.0",
+    "postcss-pxtorem": "^4.0.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "url-loader": "^1.1.2",
+    "vue": "^2.5.17",
+    "vue-class-component": "^6.3.2",
+    "vue-loader": "^15.4.2",
+    "vue-router": "^3.0.1",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.22.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  }
+}
