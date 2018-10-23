@@ -1,13 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import routerPath from './router.names';
 
 Vue.use(Router);
-
-/**
- * 路由字典注入全局
- */
-Vue.prototype.$routerPath = routerPath;
 
 /**
  * 路由 EventBus
@@ -15,19 +9,34 @@ Vue.prototype.$routerPath = routerPath;
 const routerObserver = new Vue();
 
 /**
+ * 路由创建
+ */
+const routerCreate = (path, name, conf) => {
+  return {
+    name,
+    path,
+    component: () => {
+      return import(/* webpackChunkName: "[request]" */ `@page/${name}`);
+    },
+    ...conf
+  };
+};
+
+/**
  * 定义
  */
 let router = new Router({
   routes: [
-    {
-      name: routerPath.home,
-      path: '/'
-    },
-    {
-      name: routerPath.test,
-      path: '/test',
-      component: () => import(/* webpackChunkName: "test-page" */ '@page/TestPage')
-    }
+    routerCreate('/', 'home-page', {
+      meta: {
+        title: 'Home'
+      }
+    }),
+    routerCreate('/test', 'test-page', {
+      meta: {
+        title: 'Test'
+      }
+    }),
   ]
 });
 
@@ -35,6 +44,9 @@ let router = new Router({
  * 拦截
  */
 router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
   next();
 });
 

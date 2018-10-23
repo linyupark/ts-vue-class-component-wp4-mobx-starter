@@ -3,7 +3,7 @@
     <p>name: {{user.name}}</p>
     <p>age: {{user.age}}</p>
     <p>
-      <router-link :to="{ name: $routerPath.home }">Home</router-link>
+      <router-link :to="{ name: 'home-page' }">Home Page</router-link>
     </p>
     <p>
       <Input :name="user.name" />
@@ -13,4 +13,4 @@
 </template>
 
 <style lang="stylus" src="./assets/style" scoped></style>
-<script lang="ts" src="./controller"></script>
+<script lang="ts" src="./index.controller"></script>

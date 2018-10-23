@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
+const CompressionPlugin = require('compression-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 /**
  * 环境变量
@@ -14,7 +15,7 @@ const ENV = process.env.NODE_ENV;
 const CLIENT = process.env.CLIENT || 'default';
 const API = process.env.API || ENV;
 
-const setPath = (url) => path.resolve(__dirname, url);
+const setPath = url => path.resolve(__dirname, url);
 
 /**
  * 配置（公共部分）
@@ -132,6 +133,9 @@ let config = {
     // vue loader 必用
     new VueLoaderPlugin(),
 
+    // 模块串联优化
+    new webpack.optimize.ModuleConcatenationPlugin(),
+
     // 全局环境变量定义
     new webpack.DefinePlugin({
       __ENV__: JSON.stringify(ENV),
@@ -154,7 +158,22 @@ let config = {
           ? 'css/[name].css'
           : 'css/[name].[chunkhash:5].css'
     })
-  ]
+  ],
+
+  /**
+   * 优化配置
+   */
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        common: {
+          name: 'common',
+          chunks: 'all',
+          minChunks: 3
+        }
+      }
+    }
+  }
 };
 
 /**
@@ -162,7 +181,7 @@ let config = {
  */
 if (ENV === 'development') {
   config.mode = ENV;
-  config.devtool = 'source-map';
+  config.devtool = 'eval-source-map';
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
   config.devServer = {
     clientLogLevel: 'warning',
@@ -199,23 +218,42 @@ if (ENV === 'production') {
   config.plugins.push(
     new CompressionPlugin({
       cache: true,
-      threshold: 10240,
+      threshold: 10240
     })
   );
-  config.optimization = {
-    minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          compress: {
-            warnings: false,
-            drop_console: true
-          }
+  config.optimization.minimizer = [
+    // 优化 js
+    new UglifyJsPlugin({
+      exclude: /\.min\.js$/,
+      cache: true,
+      sourceMap: false,
+      parallel: true,
+      extractComments: false,
+      uglifyOptions: {
+        compress: {
+          unused: true,
+          warnings: false,
+          drop_console: true
         },
-        sourceMap: false,
-        parallel: true
-      })
-    ]
-  }
+        output: {
+          comments: false
+        }
+      }
+    }),
+    // 优化 css
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessorOptions: {
+        safe: true,
+        autoprefixer: { disable: true },
+        mergeLonghand: false,
+        discardComments: {
+          removeAll: true
+        }
+      },
+      canPrint: true
+    })
+  ];
 }
 
 module.exports = config;

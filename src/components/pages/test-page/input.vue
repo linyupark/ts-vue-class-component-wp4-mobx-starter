@@ -25,7 +25,7 @@ import UserModel from '@model/User';
     name: String
   }
 })
-export default class TestPageInput extends Vue {
+export default class Input extends Vue {
   username = this.name;
   changeName(e) {
     UserModel.name = e.target.value;
