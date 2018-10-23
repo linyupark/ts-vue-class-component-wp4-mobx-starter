@@ -1,7 +1,7 @@
 {
-  "name": "ts-vue-mobx",
+  "name": "crh-account-close-app",
   "version": "1.0.0",
-  "description": "Typescript + Vue + Mobx",
+  "description": "crh 销户系统",
   "config": {
     "env": "development",
     "client": "default"
@@ -10,8 +10,6 @@
     "dev": "cross-env NODE_ENV=development CLIENT=$npm_package_config_client npx webpack-dev-server",
     "build": "cross-env NODE_ENV=$npm_package_config_env CLIENT=$npm_package_config_client npx webpack --mode production"
   },
-  "author": "linyupark@gmail.com",
-  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
