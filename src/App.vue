@@ -4,3 +4,5 @@
     <router-view/>
   </div>
 </template>
+
+<style lang="stylus" src="@assets/styles/global"></style>

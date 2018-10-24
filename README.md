@@ -1,1 +1,1 @@
-# 财人汇销户系统
+# ts-vue-class-component-wp4-mobx-starter

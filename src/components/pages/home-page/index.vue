@@ -4,7 +4,7 @@
       Hello, {{AppUser.name}} (age: {{ AppUser.age }})
     </p>
     <p>
-      <router-link :to="{ name: 'test-page' }">Test Page</router-link>
+      <router-link :to="$App.router.path('test')">Test Page</router-link>
     </p>
   </div>
 </template>
@@ -24,7 +24,6 @@
     methods: {},
     computed: {},
     mounted() {
-      console.log(this.$router)
     },
   });
 </script>

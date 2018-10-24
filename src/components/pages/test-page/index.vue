@@ -3,7 +3,7 @@
     <p>name: {{user.name}}</p>
     <p>age: {{user.age}}</p>
     <p>
-      <router-link :to="{ name: 'home-page' }">Home Page</router-link>
+      <router-link :to="$App.router.path('home')">Home Page</router-link>
     </p>
     <p>
       <Input :name="user.name" />

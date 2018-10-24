@@ -8,42 +8,31 @@ Vue.use(Router);
  */
 const routerObserver = new Vue();
 
-/**
- * 路由创建
- */
-const routerCreate = (path, name, conf) => {
-  return {
-    name,
-    path,
-    component: () => {
-      return import(/* webpackChunkName: "[request]" */ `@page/${name}`);
-    },
-    ...conf
-  };
+export const routerPageMap = {
+  home: { path: '/', name: 'home-page', meta: { title: '首页' } },
+  test: { path: '/test', name: 'test-page', meta: { title: '测试页' } },
 };
 
 /**
  * 定义
  */
 let router = new Router({
-  routes: [
-    routerCreate('/', 'home-page', {
-      meta: {
-        title: 'Home'
-      }
-    }),
-    routerCreate('/test', 'test-page', {
-      meta: {
-        title: 'Test'
-      }
-    }),
-  ]
+  routes: Object.keys(routerPageMap).map(key => {
+    return {
+      ...routerPageMap[key],
+      component: () => import(
+        /* webpackChunkName: "[request]" */ 
+        `@page/${routerPageMap[key].name}`
+      )
+    }
+  })
 });
 
 /**
  * 拦截
  */
 router.beforeEach((to, from, next) => {
+  routerObserver.$emit('to', to);
   if (to.meta.title) {
     document.title = to.meta.title;
   }

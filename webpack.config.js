@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -74,9 +74,7 @@ let config = {
         test: /\.(styl(us)?|css)$/,
         include: [setPath('src')],
         use: [
-          ENV === 'development'
-            ? 'vue-style-loader'
-            : MiniCssExtractPlugin.loader,
+          ENV === 'development' ? 'vue-style-loader' : ExtractCssChunks.loader,
           {
             loader: 'css-loader',
             options: {
@@ -152,11 +150,13 @@ let config = {
       inject: true
     }),
 
-    new MiniCssExtractPlugin({
-      filename:
-        ENV === 'development'
-          ? 'css/[name].css'
-          : 'css/[name].[chunkhash:5].css'
+    new ExtractCssChunks({
+      filename: 'css/[name].[hash:5].css',
+      chunkFilename: 'css/[name].[id].[hash:5].css',
+      hot: ENV === 'development',
+      orderWarning: ENV === 'development',
+      reloadAll: ENV === 'development',
+      cssModules: false
     })
   ],
 
@@ -166,11 +166,15 @@ let config = {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        common: {
-          name: 'common',
-          chunks: 'all',
-          minChunks: 3
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor'
         }
+        // common: {
+        //   name: 'common',
+        //   chunks: 'all',
+        //   minChunks: 3
+        // }
       }
     }
   }
