@@ -1,11 +1,9 @@
 <template>
   <div>
     <h1>CRH Demo</h1>
-      <div class="page-container">
-        <transition :name="pageTransitionName">
-          <router-view/>
-        </transition>
-      </div>
+      <RouterTransition type="slide">
+        <router-view/>
+      </RouterTransition>
   </div>
 </template>
 
@@ -13,18 +11,13 @@
 
 <script>
 import Vue from 'vue';
-import routerSlideTo from '@lib/vue-router-history';
 import Component from 'vue-class-component';
+import RouterTransition from '@module/router-transition';
 
 @Component({
-  watch: {
-    $route(to, from) {
-      const direction = routerSlideTo({ to, from });
-      this.pageTransitionName = direction ? `page-${direction}` : '';
-    }
+  components: {
+    RouterTransition
   }
 })
-export default class AppRoot extends Vue {
-  pageTransitionName = '';
-}
+export default class AppRoot extends Vue {}
 </script>
